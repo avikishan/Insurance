@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import os
 import sys
-import yaml
+import yaml,dill
 from Insurance.exception import InsuranceException
 from Insurance.config import mongo_client
 from Insurance.logger import logging
@@ -36,5 +36,32 @@ def convert_columns_float(df:pd.DataFrame,exclude_columns:list)->pd.DataFrame:
                 if df[column].dtypes != 'O':
                     df[column]=df[column].astype('float')
         return df
+    except Exception as e:
+        raise InsuranceException(e,sys)
+    
+def save_object(file_path:str,obj:object)->None:
+    try:
+        os.makedirs(os.path.dirname(file_path),exist_ok=True)
+        with open(file_path,"wb") as file_object:
+            dill.dump(obj,file_object)
+    except Exception as e:
+        raise InsuranceException(e,sys)
+    
+def load_object(file_path:str,)->object:
+    try:
+        if not os.path.exists(file_path):
+            raise Exception(f"The {file_path} does not exists")
+        with open(file_path,'rb') as file_object:
+            return dill.open(file_object)
+    except Exception as e:
+        raise InsuranceException(e,sys)
+    
+
+def save_numpy_array_data(file_path:str,array:np.array):
+    try:
+        dir_path=os.path.dirname(file_path)
+        os.makedirs(dir_path,exist_ok=True)
+        with open(file_path,'wb') as file_obj:
+            np.save(file_obj,array)
     except Exception as e:
         raise InsuranceException(e,sys)

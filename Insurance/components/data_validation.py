@@ -117,7 +117,7 @@ class DataValidation:
             train_df_columns_status = self.is_required_columns_exists(base_df=base_df,current_df=train_df,report_key_name="Missing_columns_within_train_dataset")
             logging.info("test df")
             test_df_columns_status=self.is_required_columns_exists(base_df=base_df,current_df=test_df,report_key_name="Missing_values_wtihin_test_dataset")
-            print("********************************")
+            #print("********************************")
             #print(train_df_columns_status)
             #print("********************************")
             #print(test_df_columns_status)
