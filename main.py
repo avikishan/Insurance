@@ -7,6 +7,7 @@ from Insurance.entity import config_entity
 from Insurance.components.data_ingestion import DataIngestion
 from Insurance.components.data_validation import DataValidation
 from Insurance.components.data_transformation import DataTransformation
+from Insurance.components.model_trainer import ModelTrainer
 
 # def test_logger_and_exception():
 #     try:
@@ -53,5 +54,13 @@ if __name__=="__main__":
         print("Data Transformation Done")
 
         print("***************************************")
+
+        #Model Training
+        print("Model Training")
+        model_trainer_config=config_entity.ModelTrainingConfig(trainig_pipeline_config=training_pipeline_config)
+        model_tainer=ModelTrainer(model_trainer_config=model_trainer_config,data_transformation_artifact=data_transformation_artifact)
+        model_trainer_artifact=model_tainer.initiate_model_trainer()
+        print("Model Taining Finished")
+
     except Exception as e:
         print(e)
